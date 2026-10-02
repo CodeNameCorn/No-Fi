@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Ko-fi Image Viewer</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    margin: 0;
+    padding: 20px 12px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    margin: 25px 0;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+button {
+    padding: 13px 18px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(220px, 1fr)
+    );
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px #ddd;
+}
+
+.card img {
+    width: 100%;
+    height: 260px;
+    object-fit: contain;
+    background: #eee;
+}
+
+.card a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    color: #333;
+}
+
+.notice {
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #b00020;
+    text-align: center;
+}
+
+@media (max-width: 520px) {
+    form {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .card img {
+        height: 300px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Ko-fi Image Viewer</h1>
+
+<p class="subtitle">
+Publicly accessible image gallery
+</p>
+
+<form method="POST">
+
+<input
+    type="url"
+    name="url"
+    placeholder="Paste Ko-fi post URL here"
+    value="{{ url }}"
+    required
+>
+
+<button type="submit">
+Load Images
+</button>
+
+</form>
+
+<div class="notice">
+This viewer displays images available in public page HTML.
+It does not bypass supporter-only restrictions.
+</div>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<div class="gallery">
+
+{% for image in images %}
+
+<div class="card">
+
+<a href="{{ image }}" target="_blank" rel="noopener noreferrer">
+<img src="{{ image }}" loading="lazy" alt="Public image">
+</a>
+
+<a href="{{ image }}" target="_blank" rel="noopener noreferrer">
+Open Image
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>
