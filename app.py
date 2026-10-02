@@ -61,8 +61,8 @@ def home():
                         "Some pages load content dynamically."
                     )
 
-            except requests.RequestException:
-                error = "Could not load the page. Check the URL."
+            except requests.RequestException as e:
+                error = f"Request failed: {type(e).__name__}: {e}"
 
     return render_template(
         "index.html",
